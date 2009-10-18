@@ -8,6 +8,7 @@ class Jeweler
     autoload :ReleaseToGemcutter, 'jeweler/commands/release_to_gemcutter'
     autoload :ReleaseToRubyforge, 'jeweler/commands/release_to_rubyforge'
     autoload :SetupRubyforge, 'jeweler/commands/setup_rubyforge'
+    autoload :ReleaseToLocal, 'jeweler/commands/release_to_local'
     autoload :ValidateGemspec, 'jeweler/commands/validate_gemspec'
     autoload :WriteGemspec, 'jeweler/commands/write_gemspec'
 

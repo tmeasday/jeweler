@@ -20,6 +20,7 @@ class Jeweler
   autoload :Tasks,          'jeweler/tasks'
   autoload :GemcutterTasks, 'jeweler/gemcutter_tasks'
   autoload :RubyforgeTasks, 'jeweler/rubyforge_tasks'
+  autoload :LocalTasks,     'jeweler/local_tasks'
   autoload :Specification,  'jeweler/specification'
 
   attr_reader :gemspec, :gemspec_helper, :version_helper
@@ -141,6 +142,14 @@ class Jeweler
     Jeweler::Commands::SetupRubyforge.build_for(self).run
   end
 
+  def release_gem_to_local(ssh_host, host_dir)
+    command = Jeweler::Commands::ReleaseToLocal.build_for(self)
+    command.ssh_host = ssh_host
+    command.host_dir = host_dir
+    
+    command.run
+  end
+  
   def check_dependencies(type = nil)
     command = Jeweler::Commands::CheckDependencies.build_for(self)
     command.type = type
