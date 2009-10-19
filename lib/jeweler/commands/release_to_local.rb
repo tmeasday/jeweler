@@ -2,7 +2,7 @@ class Jeweler
   module Commands
     class ReleaseToLocal
       attr_accessor :gemspec, :version, :output, :gemspec_helper
-      attr_accessor :ssh_host, :host_path
+      attr_accessor :ssh_host, :host_dir
 
       def initialize
         self.output = $stdout
@@ -10,14 +10,14 @@ class Jeweler
 
       def run
         # copy gem to local server
-        command = ['scp', gem_file, "\"#{ssh_host}:#{host_dir}\"/gems"]        
-        output.puts "Executing #{command}:"
-        sh command # will throw an exception if there is a problem
+        command = ['scp', @gemspec_helper.gem_path, "#{ssh_host}:#{host_dir}/gems"]
+        output.puts "Executing #{command.join(' ')}:"
+        sh *command # will throw an exception if there is a problem
         
         # re-index local gems
-        command = ['ssh', ssh_host, '-C', "\"cd #{host_dir}; gem generate_index\""]
-        output.puts "Executing #{command}:"
-        sh command
+        command = ['ssh', ssh_host, '-C', "cd #{host_dir}; gem generate_index"]
+        output.puts "Executing #{command.join(' ')}:"
+        sh *command
       end
 
       def self.build_for(jeweler)
